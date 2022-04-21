@@ -28,7 +28,8 @@ class UpdateInscriptionRequest extends FormRequest
 			'programme_id' => 'required|integer|exists:programmes,id',
 			'utilisateur_id' => 'required|integer|exists:utilisateurs,id',
 			'prix' => 'required|integer',
-			'mode_paiement' => 'required|string'			
+			'mode_paiement' => 'required|string',			
+			'status_paiement' => 'nullable|string'			
         ];
     }
 }

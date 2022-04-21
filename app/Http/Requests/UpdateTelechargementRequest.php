@@ -25,7 +25,8 @@ class UpdateTelechargementRequest extends FormRequest
     {
         return [
             'nom' => 'required|string',
-			'description' => 'required|text'
+			'description' => 'required|string',
+            'fichier' => 'nullable|file'			
         ];
     }
 }

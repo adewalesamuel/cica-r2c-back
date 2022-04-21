@@ -7,26 +7,29 @@ use Illuminate\Http\Request;
 use App\Models\Administrateur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class ApiAdminAuthController extends Controller
 {
     public function login(Request $request) {
         $credentials = $request->only("email", "mot_de_passe");
+        $administrateur = Administrateur::where('email', $credentials['email'])
+        ->where('mot_de_passe', $credentials['mot_de_passe']);
     
-        if (!Auth::guard('admin')->once($credentials)) {
+        if (!$administrateur->exists()) {
             $data = [
-                'success' => false,
+                'error' => true,
                 'message' => "Mail ou mot de passe incorrect"
             ];
 
             return response()->json($data, 404);
         }
 
-        $administrateur = Administrateur::where('email', $credentials['email'])->first();
+        $administrateur = $administrateur->first();
 
         $data = [
             "success" => true,
-            "data" => $administrateur
+            "administrateur" => $administrateur
         ];
 
         return response()->json($data);
@@ -39,7 +42,7 @@ class ApiAdminAuthController extends Controller
 
         if (!$administrateur) {
             $data = [
-                "success" => false,
+                "error" => true,
                 "message" => "Une erreure est survenue"
             ];
 

@@ -19,8 +19,8 @@ class InscriptionController extends Controller
     {
         $data = [
             'success' => true,
-            'inscriptions' => Inscription::where('id', '>', -1)
-            ->orderBy('created_at', 'desc')->get()
+            'inscriptions' => Inscription::with(['utilisateur', 'programme', 'pack'])
+            ->where('id', '>', -1)->orderBy('created_at', 'desc')->get()
         ];
 
         return response()->json($data);
@@ -53,6 +53,7 @@ class InscriptionController extends Controller
 		$inscription->utilisateur_id = $validated['utilisateur_id'] ?? null;
 		$inscription->prix = $validated['prix'] ?? null;
 		$inscription->mode_paiement = $validated['mode_paiement'] ?? null;
+		$inscription->status_paiement = $validated['status_paiement'] ?? 'en-attente';
 		
         $inscription->save();
 
@@ -107,6 +108,7 @@ class InscriptionController extends Controller
 		$inscription->utilisateur_id = $validated['utilisateur_id'] ?? null;
 		$inscription->prix = $validated['prix'] ?? null;
 		$inscription->mode_paiement = $validated['mode_paiement'] ?? null;
+		$inscription->status_paiement = $validated['status_paiement'] ?? 'en-attente';
 		
         $inscription->save();
 

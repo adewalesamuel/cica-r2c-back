@@ -52,6 +52,7 @@ class ResumeController extends Controller
 		$resume->mots_cles = $validated['mots_cles'] ?? null;
 		$resume->auteurs = $validated['auteurs'] ?? null;
 		$resume->contenu = $validated['contenu'] ?? null;
+		$resume->status = $validated['status'] ?? null;
 		$resume->utilisateur_id = $validated['utilisateur_id'] ?? null;
 		
         $resume->save();
@@ -106,6 +107,7 @@ class ResumeController extends Controller
 		$resume->mots_cles = $validated['mots_cles'] ?? null;
 		$resume->auteurs = $validated['auteurs'] ?? null;
 		$resume->contenu = $validated['contenu'] ?? null;
+        $resume->status = $validated['status'] ?? null;
 		$resume->utilisateur_id = $validated['utilisateur_id'] ?? null;
 		
         $resume->save();

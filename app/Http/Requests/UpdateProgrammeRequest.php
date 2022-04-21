@@ -27,8 +27,8 @@ class UpdateProgrammeRequest extends FormRequest
             'titre'        => 'required|string',
             'description'  => 'nullable|string',
             'date'         => 'required|date',
-            'heure'        => 'required|time',
-            'categorie_id' => 'required|integer'
+            'heure'        => 'required|string',
+            'categorie_id' => 'required|integer|exists:categories,id'
         ];
     }
 }

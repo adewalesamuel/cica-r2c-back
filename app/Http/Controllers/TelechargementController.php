@@ -51,8 +51,8 @@ class TelechargementController extends Controller
         $telechargement->nom = $validated['nom'] ?? null;
 		$telechargement->description = $validated['description'] ?? null;
 
-        if ($telechargement->hasFile('fichier'))
-            $telechargement->url_fichier = $telechargement->store('public', $telechargement->fichier);
+        if ($request->hasFile('fichier'))
+            $telechargement->url_fichier = str_replace('public', 'storage', $request->fichier->store('public'));
             
         $telechargement->save();
 
@@ -105,8 +105,8 @@ class TelechargementController extends Controller
         $telechargement->nom = $validated['nom'] ?? null;
 		$telechargement->description = $validated['description'] ?? null;
 
-        if ($telechargement->hasFile('fichier'))
-            $telechargement->url_fichier = $telechargement->store('public', $telechargement->fichier);
+        if ($request->hasFile('fichier')) 
+            $telechargement->url_fichier = str_replace('public', 'storage', $request->fichier->store('public'));
             
         $telechargement->save();
 
