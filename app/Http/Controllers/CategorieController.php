@@ -18,7 +18,7 @@ class CategorieController extends Controller
     {
         $data = [
             "success" => true,
-            "categories" => Categorie::where('id', '>', -1)
+            "categories" => Categorie::where('id', '>', -1)->with('programmes')
             ->orderBy('created_at', 'desc')->get()
         ];
 

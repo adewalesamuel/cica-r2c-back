@@ -27,23 +27,28 @@ use App\Http\Controllers\TelechargementController;
 
 Route::post('/admin-login', [ApiAdminAuthController::class, 'login']);
 Route::post('/admin-logout', [ApiAdminAuthController::class, 'logout']);
-Route::get('administrateurs', [AdministrateurController::class, 'index']);
+
+Route::get('utilisateurs', [UtilisateurController::class, 'index']);
+Route::post('utilisateurs', [ApiAuthController::class, 'register']);
+
+Route::get('categories', [CategorieController::class, 'index']);
+Route::get('programmes', [ProgrammeController::class, 'index']);
+Route::get('packs', [PackController::class, 'index']);
+Route::get('paiementgateways', [PaiementGatewayController::class, 'index']);
+Route::post('inscriptions', [InscriptionController::class, 'store']);
 
 Route::middleware('auth.api:admin')->group(function () {
     
-    Route::get('utilisateurs', [UtilisateurController::class, 'index']);
-    Route::post('utilisateurs', [ApiAuthController::class, 'register']);
     Route::get('utilisateurs/{utilisateur}', [UtilisateurController::class, 'show']);
     Route::put('utilisateurs/{utilisateur}', [UtilisateurController::class, 'update']);
     Route::delete('utilisateurs/{utilisateur}', [UtilisateurController::class, 'destroy']);
     
-    Route::get('categories', [CategorieController::class, 'index']);
     Route::post('categories', [CategorieController::class, 'store']);
     Route::get('categories/{categorie}', [CategorieController::class, 'show']);
     Route::put('categories/{categorie}', [CategorieController::class, 'update']);
     Route::delete('categories/{categorie}', [CategorieController::class, 'destroy']);
     
-    // Route::get('administrateurs', [AdministrateurController::class, 'index']);
+    Route::get('administrateurs', [AdministrateurController::class, 'index']);
     Route::post('administrateurs', [AdministrateurController::class, 'store']);
     Route::get('administrateurs/{administrateur}', [AdministrateurController::class, 'show']);
     Route::put('administrateurs/{administrateur}', [AdministrateurController::class, 'update']);
@@ -55,25 +60,21 @@ Route::middleware('auth.api:admin')->group(function () {
     Route::put('resumes/{resume}', [ResumeController::class, 'update']);
     Route::delete('resumes/{resume}', [ResumeController::class, 'destroy']);
     
-    Route::get('programmes', [ProgrammeController::class, 'index']);
     Route::post('programmes', [ProgrammeController::class, 'store']);
     Route::get('programmes/{programme}', [ProgrammeController::class, 'show']);
     Route::put('programmes/{programme}', [ProgrammeController::class, 'update']);
     Route::delete('programmes/{programme}', [ProgrammeController::class, 'destroy']);
     
-    Route::get('packs', [PackController::class, 'index']);
     Route::post('packs', [PackController::class, 'store']);
     Route::get('packs/{pack}', [PackController::class, 'show']);
     Route::put('packs/{pack}', [PackController::class, 'update']);
     Route::delete('packs/{pack}', [PackController::class, 'destroy']);
     
     Route::get('inscriptions', [InscriptionController::class, 'index']);
-    Route::post('inscriptions', [InscriptionController::class, 'store']);
     Route::get('inscriptions/{inscription}', [InscriptionController::class, 'show']);
     Route::put('inscriptions/{inscription}', [InscriptionController::class, 'update']);
     Route::delete('inscriptions/{inscription}', [InscriptionController::class, 'destroy']);
     
-    Route::get('paiementgateways', [PaiementGatewayController::class, 'index']);
     Route::post('paiementgateways', [PaiementGatewayController::class, 'store']);
     Route::get('paiementgateways/{paiementgateway}', [PaiementGatewayController::class, 'show']);
     Route::put('paiementgateways/{paiementgateway}', [PaiementGatewayController::class, 'update']);
