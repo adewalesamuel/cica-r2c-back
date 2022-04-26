@@ -8,16 +8,17 @@ use App\Models\Utilisateur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreUtilisateurRequest;
+use Illuminate\Support\Facades\Hash;
 
 class ApiAuthController extends Controller
 {
     public function login(Request $request) {
-        $credentials = $request->only("email", "mot_de_passe");
+        $credentials = $request->only("email", "password");
     
         if (!Auth::once($credentials)) {
             $data = [
-                'success' => false,
-                'message' => "Mail ou mot de passe incorrect"
+                'error' => true,
+                'message' => "Mail ou mot de passe incorrect",
             ];
 
             return response()->json($data, 404);
@@ -27,7 +28,7 @@ class ApiAuthController extends Controller
 
         $data = [
             "success" => true,
-            "data"    => $utilisateur
+            "utilisateur"    => $utilisateur
         ];
 
         return response()->json($data);
@@ -42,7 +43,7 @@ class ApiAuthController extends Controller
         $utilisateur->nom = $validated['nom'];
         $utilisateur->prenom = $validated['prenom'];
         $utilisateur->email = $validated['email'];
-        $utilisateur->mot_de_passe = $validated['mot_de_passe'];
+        $utilisateur->password = $validated['password'];
         $utilisateur->civilite = $validated['civilite'] ?? null;
         $utilisateur->fonction = $validated['fonction'];
         $utilisateur->specialite = $validated['specialite'];

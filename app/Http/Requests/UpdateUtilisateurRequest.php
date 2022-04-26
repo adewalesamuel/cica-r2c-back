@@ -27,7 +27,7 @@ class UpdateUtilisateurRequest extends FormRequest
             'nom'                     => 'required|string',
             'prenom'                  => 'required|string',
             'email'                   => 'required|email',
-            'mot_de_passe'            => 'required|string',
+            'password'                => 'required|string',
             'civilite'                => 'nullable|string',
             'fonction'                => 'required|string',
             'specialite'              => 'required|string',

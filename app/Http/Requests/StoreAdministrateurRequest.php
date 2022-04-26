@@ -25,7 +25,7 @@ class StoreAdministrateurRequest extends FormRequest
     {
         return [
             'nom_prenom' => 'required|string',
-			'mot_de_passe' => 'required|string',
+			'password' => 'required|string',
 			'email' => 'required|string|unique:administrateurs'			
         ];
     }

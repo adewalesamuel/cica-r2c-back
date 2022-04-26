@@ -27,7 +27,7 @@ class StoreUtilisateurRequest extends FormRequest
             'nom'                     => 'required|string',
             'prenom'                  => 'required|string',
             'email'                   => 'required|email|unique:utilisateurs',
-            'mot_de_passe'            => 'required|string',
+            'password'                => 'required|string',
             'civilite'                => 'nullable|string',
             'fonction'                => 'required|string',
             'specialite'              => 'required|string',

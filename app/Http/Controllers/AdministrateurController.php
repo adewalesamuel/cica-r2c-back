@@ -49,7 +49,7 @@ class AdministrateurController extends Controller
         $administrateur = new Administrateur;
 
         $administrateur->nom_prenom = $validated['nom_prenom'] ?? null;
-		$administrateur->mot_de_passe = $validated['mot_de_passe'] ?? null;
+        $administrateur->password = $validated['password'];
 		$administrateur->email = $validated['email'] ?? null;
         $administrateur->api_token = Str::random(60);
 		
@@ -102,7 +102,7 @@ class AdministrateurController extends Controller
         $validated = $request->validated();
 
         $administrateur->nom_prenom = $validated['nom_prenom'] ?? null;
-		$administrateur->mot_de_passe = $validated['mot_de_passe'] ?? null;
+        $administrateur->setPasswordAttribute($validated['mot_de_passe']);
 		$administrateur->email = $validated['email'] ?? null;
 		
         $administrateur->save();

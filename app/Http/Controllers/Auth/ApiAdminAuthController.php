@@ -12,20 +12,18 @@ use Illuminate\Support\Facades\Hash;
 class ApiAdminAuthController extends Controller
 {
     public function login(Request $request) {
-        $credentials = $request->only("email", "mot_de_passe");
-        $administrateur = Administrateur::where('email', $credentials['email'])
-        ->where('mot_de_passe', $credentials['mot_de_passe']);
+        $credentials = $request->only("email", "password");
     
-        if (!$administrateur->exists()) {
+        if (!Auth::guard('admin')->once($credentials)) {
             $data = [
                 'error' => true,
-                'message' => "Mail ou mot de passe incorrect"
+                'message' => "Mail ou mot de passe incorrect",
             ];
 
             return response()->json($data, 404);
         }
 
-        $administrateur = $administrateur->first();
+        $administrateur = Administrateur::where('email', $credentials['email'])->first();
 
         $data = [
             "success" => true,

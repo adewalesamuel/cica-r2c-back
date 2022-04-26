@@ -28,6 +28,9 @@ use App\Http\Controllers\TelechargementController;
 Route::post('/admin-login', [ApiAdminAuthController::class, 'login']);
 Route::post('/admin-logout', [ApiAdminAuthController::class, 'logout']);
 
+Route::post('/login', [ApiAuthController::class, 'login']);
+Route::post('/logout', [ApiAuthController::class, 'logout']);
+
 Route::get('utilisateurs', [UtilisateurController::class, 'index']);
 Route::post('utilisateurs', [ApiAuthController::class, 'register']);
 

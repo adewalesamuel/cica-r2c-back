@@ -16,10 +16,10 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('utilisateurs')->insert([
+        DB::table('administrateurs')->insert([
             'nom_prenom' => "Administrateur",
             'email' => "admin@cica2022.ci",
-            'mot_de_passe' => Hash::make('password'),
+            'password' => Hash::make('password'),
             'api_token' => Str::random(60)
         ]);
     }

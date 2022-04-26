@@ -17,7 +17,7 @@ class CreateAdministrateursTable extends Migration
             $table->id();
             $table->string('nom_prenom');
             $table->string('email')->unique();
-            $table->string('mot_de_passe');
+            $table->string('password');
             $table->softDeletes();
             $table->string('api_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();

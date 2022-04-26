@@ -20,7 +20,7 @@ class Administrateur extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'mot_de_passe',
+        'password',
         'remember_token',
     ];
 
@@ -34,6 +34,6 @@ class Administrateur extends Authenticatable
     ];
 
     public function setPasswordAttribute($value) {
-        $this->attributes['mot_de_passe'] = Hash::make($value);
+        $this->attributes['password'] = Hash::make($value);
     }
 }

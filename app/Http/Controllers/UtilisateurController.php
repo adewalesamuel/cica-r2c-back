@@ -89,7 +89,7 @@ class UtilisateurController extends Controller
         $utilisateur->nom = $validated['nom'];
         $utilisateur->prenom = $validated['prenom'];
         $utilisateur->email = $validated['email'];
-        $utilisateur->mot_de_passe = $validated['mot_de_passe'];
+        $utilisateur->password = $validated['password'];
         $utilisateur->civilite = $validated['civilite'] ?? null;
         $utilisateur->fonction = $validated['fonction'];
         $utilisateur->specialite = $validated['specialite'];
