@@ -102,7 +102,7 @@ class AdministrateurController extends Controller
         $validated = $request->validated();
 
         $administrateur->nom_prenom = $validated['nom_prenom'] ?? null;
-        $administrateur->setPasswordAttribute($validated['mot_de_passe']);
+        $administrateur->password = $validated['password'];
 		$administrateur->email = $validated['email'] ?? null;
 		
         $administrateur->save();
