@@ -15,11 +15,6 @@ class Inscription extends Model
 		return $this->belongsTo(Pack::class); 
 	}
 
-	public function programme()
-	{
-		return $this->belongsTo(Programme::class); 
-	}
-
 	public function utilisateur()
 	{
 		return $this->belongsTo(Utilisateur::class); 

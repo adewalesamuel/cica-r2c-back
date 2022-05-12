@@ -18,9 +18,7 @@ class CreateInscriptionsTable extends Migration
             $table->foreignId('pack_id')
             ->constrained()
             ->onDelete('cascade');
-            $table->foreignId('programme_id')
-            ->constrained()
-            ->onDelete('cascade');
+            $table->json('programme_ids');
             $table->foreignId('utilisateur_id')
             ->constrained()
             ->onDelete('cascade');

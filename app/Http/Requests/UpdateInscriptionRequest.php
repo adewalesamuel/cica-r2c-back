@@ -25,7 +25,7 @@ class UpdateInscriptionRequest extends FormRequest
     {
         return [
             'pack_id' => 'required|integer|exists:packs,id',
-			'programme_id' => 'required|integer|exists:programmes,id',
+			'programme_ids' => 'required|json',
 			'utilisateur_id' => 'required|integer|exists:utilisateurs,id',
 			'prix' => 'required|integer',
 			'mode_paiement' => 'required|string',			
