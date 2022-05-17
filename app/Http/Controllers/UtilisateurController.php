@@ -27,6 +27,16 @@ class UtilisateurController extends Controller
         return response()->json($data);
     }
 
+    public function resumes(Request $request, Utilisateur $utilisateur) {
+        $data = [
+            'success' => true,
+            'resumes' => $utilisateur->resumes->sortByDesc('created_at')
+            ->values()->all()
+        ];
+
+        return response()->json($data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

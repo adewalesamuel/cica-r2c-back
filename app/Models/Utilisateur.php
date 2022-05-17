@@ -36,4 +36,14 @@ class Utilisateur extends Authenticatable
     public function setPasswordAttribute($value) {
 	    $this->attributes['password'] = Hash::make($value);
     }
+
+    /**
+     * Get all of the resumes for the Utilisateur
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
+    }
 }

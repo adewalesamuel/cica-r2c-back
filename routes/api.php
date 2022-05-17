@@ -40,6 +40,16 @@ Route::get('packs', [PackController::class, 'index']);
 Route::get('paiementgateways', [PaiementGatewayController::class, 'index']);
 Route::post('inscriptions', [InscriptionController::class, 'store']);
 
+Route::prefix('utilisateurs')->group(function() {
+    Route::middleware('auth.api')->group(function () {
+        Route::get('{utilisateur}/resumes', [UtilisateurController::class, 'resumes']);
+        Route::post('resumes', [ResumeController::class, 'store']);
+        Route::get('resumes/{resume}', [ResumeController::class, 'show']);
+        Route::put('resumes/{resume}', [ResumeController::class, 'update']);
+        Route::delete('resumes/{resume}', [ResumeController::class, 'destroy']);
+    });
+});
+
 Route::middleware('auth.api:admin')->group(function () {
     
     Route::get('utilisateurs/{utilisateur}', [UtilisateurController::class, 'show']);
