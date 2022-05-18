@@ -45,7 +45,7 @@ Route::prefix('utilisateurs')->group(function() {
         Route::get('{utilisateur}/resumes', [UtilisateurController::class, 'resumes']);
         Route::post('resumes', [ResumeController::class, 'store']);
         Route::get('resumes/{resume}', [ResumeController::class, 'show']);
-        Route::put('resumes/{resume}', [ResumeController::class, 'update']);
+        Route::post('resumes/{resume}', [ResumeController::class, 'update']);
         Route::delete('resumes/{resume}', [ResumeController::class, 'destroy']);
     });
 });
@@ -70,7 +70,7 @@ Route::middleware('auth.api:admin')->group(function () {
     Route::get('resumes', [ResumeController::class, 'index']);
     Route::post('resumes', [ResumeController::class, 'store']);
     Route::get('resumes/{resume}', [ResumeController::class, 'show']);
-    Route::put('resumes/{resume}', [ResumeController::class, 'update']);
+    Route::post('resumes/{resume}', [ResumeController::class, 'update']);
     Route::delete('resumes/{resume}', [ResumeController::class, 'destroy']);
     
     Route::post('programmes', [ProgrammeController::class, 'store']);

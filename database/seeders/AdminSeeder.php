@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
     {
         DB::table('administrateurs')->insert([
             'nom_prenom' => "Administrateur",
-            'email' => "admin@cica2022.ci",
+            'email' => "admin@cica2022.com",
             'password' => Hash::make('password'),
             'api_token' => Str::random(60)
         ]);

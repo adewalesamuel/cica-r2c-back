@@ -51,10 +51,12 @@ class ResumeController extends Controller
         $resume->titre = $validated['titre'] ?? null;
 		$resume->mots_cles = $validated['mots_cles'] ?? null;
 		$resume->auteurs = $validated['auteurs'] ?? null;
-		$resume->contenu = $validated['contenu'] ?? null;
 		$resume->status = $validated['status'] ?? null;
 		$resume->utilisateur_id = $validated['utilisateur_id'] ?? null;
 		
+        if ($request->hasFile('fichier'))
+            $resume->fichier_url =  str_replace('public', 'storage', $request->fichier->store('public'));            
+
         $resume->save();
 
         $data = [
@@ -106,9 +108,11 @@ class ResumeController extends Controller
         $resume->titre = $validated['titre'] ?? null;
 		$resume->mots_cles = $validated['mots_cles'] ?? null;
 		$resume->auteurs = $validated['auteurs'] ?? null;
-		$resume->contenu = $validated['contenu'] ?? null;
         $resume->status = $validated['status'] ?? null;
 		$resume->utilisateur_id = $validated['utilisateur_id'] ?? null;
+
+        if ($request->hasFile('fichier'))
+            $resume->fichier_url =  str_replace('public', 'storage', $request->fichier->store('public'));
 		
         $resume->save();
 

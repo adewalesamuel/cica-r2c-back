@@ -18,7 +18,7 @@ class CreateResumesTable extends Migration
             $table->string('titre');
             $table->string('mots_cles')->nullable();
             $table->json('auteurs');
-            $table->longText('contenu')->nullable();
+            $table->string('fichier_url');
             $table->enum('status', ['brouillon','soumis', 'relecture', 'termine']);
             $table->foreignId('utilisateur_id')
             ->constrained()

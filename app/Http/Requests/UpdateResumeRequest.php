@@ -27,7 +27,7 @@ class UpdateResumeRequest extends FormRequest
             'titre' => 'required|string',
 			'mots_cles' => 'required|string',
 			'auteurs' => 'required|json',
-			'contenu' => 'required|string',
+			'fichier' => 'nullable|file',
             'status' => 'nullable|string',
 			'utilisateur_id' => 'required|integer|exists:utilisateurs,id',
         ];
