@@ -17,6 +17,7 @@ class CreateProgrammesTable extends Migration
             $table->id();
             $table->string('titre');
             $table->text('description')->nullable();
+            $table->integer('nbr_places')->nullable();
             $table->date('date');
             $table->time('heure');
             $table->foreignId('categorie_id')

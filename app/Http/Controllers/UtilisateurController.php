@@ -115,7 +115,6 @@ class UtilisateurController extends Controller
         $utilisateur->autres = $validated['autres'] ?? null;
         $utilisateur->has_accepted_conditions = $validated['has_accepted_conditions'] ?? null;
         $utilisateur->is_r2c_member = $validated['is_r2c_member'] ?? null;
-        $utilisateur->api_token = Str::random(60);
 
         $utilisateur->save();
 

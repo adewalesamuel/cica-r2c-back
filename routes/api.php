@@ -40,13 +40,22 @@ Route::get('packs', [PackController::class, 'index']);
 Route::get('paiementgateways', [PaiementGatewayController::class, 'index']);
 Route::post('inscriptions', [InscriptionController::class, 'store']);
 
+Route::get('telechargements', [TelechargementController::class, 'index']);
+
 Route::prefix('utilisateurs')->group(function() {
     Route::middleware('auth.api')->group(function () {
         Route::get('{utilisateur}/resumes', [UtilisateurController::class, 'resumes']);
+        Route::get('{utilisateur}/profile', [UtilisateurController::class, 'show']);
+        Route::put('{utilisateur}/profile', [UtilisateurController::class, 'update']);
+        Route::get('{utilisateur}/inscriptions', [InscriptionController::class, 'index']);
+        
         Route::post('resumes', [ResumeController::class, 'store']);
         Route::get('resumes/{resume}', [ResumeController::class, 'show']);
         Route::post('resumes/{resume}', [ResumeController::class, 'update']);
         Route::delete('resumes/{resume}', [ResumeController::class, 'destroy']);
+
+        Route::get('inscriptions/{inscription}', [InscriptionController::class, 'show']);
+
     });
 });
 
@@ -93,7 +102,7 @@ Route::middleware('auth.api:admin')->group(function () {
     Route::put('paiementgateways/{paiementgateway}', [PaiementGatewayController::class, 'update']);
     Route::delete('paiementgateways/{paiementgateway}', [PaiementGatewayController::class, 'destroy']);
     
-    Route::get('telechargements', [TelechargementController::class, 'index']);
+    // Route::get('telechargements', [TelechargementController::class, 'index']);
     Route::post('telechargements', [TelechargementController::class, 'store']);
     Route::get('telechargements/{telechargement}', [TelechargementController::class, 'show']);
     Route::post('telechargements/{telechargement}', [TelechargementController::class, 'update']);

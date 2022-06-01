@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Programme;
+use App\Models\Inscription;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProgrammeRequest;
 use App\Http\Requests\UpdateProgrammeRequest;
@@ -15,11 +16,33 @@ class ProgrammeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $programmes = Programme::where('id', '>', -1)
+        ->orderBy('created_at', 'desc')->get();
+        $inscriptions = Inscription::all();
+        $programme_ids = collect($inscriptions)->map(function($inscription) {
+            return json_decode($inscription->programme_ids);
+        });
+        $programme_ids = array_merge(...$programme_ids);
+
+        for ($i=0; $i < count($programmes); $i++) {
+            $programme = $programmes[$i];
+
+            for ($j=0; $j < count($programme_ids); $j++) {
+                $programme_id = $programme_ids[$j];  
+
+                if ($programme->id == $programme_id) {
+                    if (!$programme['nbr_place_inscrit']) {
+                        $programmes[$i]['nbr_place_inscrit'] = 1;
+                    }else {
+                        $programmes[$i]['nbr_place_inscrit'] += 1;
+                    }};
+                };
+            };
+
         $data = [
             "success" => true,
-            "programmes" => Programme::where('id', '>', -1)
-            ->orderBy('created_at', 'desc')->get()
+            "programmes" => $programmes
         ];
 
         return response()->json($data);
@@ -49,6 +72,7 @@ class ProgrammeController extends Controller
 
         $programme->titre = $validated['titre'];
         $programme->description = $validated['description'] ?? null;
+        $programme->nbr_places = $validated['nbr_places'] ?? null;
         $programme->date = $validated['date'];
         $programme->heure = $validated['heure'];
         $programme->categorie_id = $validated['categorie_id'];
@@ -103,6 +127,7 @@ class ProgrammeController extends Controller
 
         $programme->titre = $validated['titre'];
         $programme->description = $validated['description'] ?? null;
+        $programme->nbr_places = $validated['nbr_places'] ?? null;
         $programme->date = $validated['date'];
         $programme->heure = $validated['heure'];
         $programme->categorie_id = $validated['categorie_id'];

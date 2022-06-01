@@ -26,6 +26,7 @@ class StoreProgrammeRequest extends FormRequest
         return [
             'titre'        => 'required|string',
             'description'  => 'nullable|string',
+            'nbr_places'   => 'nullable|integer',
             'date'         => 'required|date',
             'heure'        => 'required|string',
             'categorie_id' => 'required|integer|exists:categories,id'
