@@ -46,4 +46,9 @@ class Utilisateur extends Authenticatable
     {
         return $this->hasMany(Resume::class);
     }
+
+    public function inscriptions()
+    {
+        return $this->hasMany(Inscription::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Utilisateur;
+use App\Models\Inscription;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUtilisateurRequest;
 use App\Http\Requests\UpdateUtilisateurRequest;
@@ -32,6 +33,16 @@ class UtilisateurController extends Controller
             'success' => true,
             'resumes' => $utilisateur->resumes->sortByDesc('created_at')
             ->values()->all()
+        ];
+
+        return response()->json($data);
+    }
+
+    public function inscriptions(Request $request, Utilisateur $utilisateur) {
+        $data = [
+            'success' => true,
+            'inscriptions' => Inscription::where('utilisateur_id', $utilisateur->id)
+            ->with(['pack', 'utilisateur'])->orderByDesc('created_at')->get()
         ];
 
         return response()->json($data);

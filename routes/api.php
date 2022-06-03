@@ -47,7 +47,7 @@ Route::prefix('utilisateurs')->group(function() {
         Route::get('{utilisateur}/resumes', [UtilisateurController::class, 'resumes']);
         Route::get('{utilisateur}/profile', [UtilisateurController::class, 'show']);
         Route::put('{utilisateur}/profile', [UtilisateurController::class, 'update']);
-        Route::get('{utilisateur}/inscriptions', [InscriptionController::class, 'index']);
+        Route::get('{utilisateur}/inscriptions', [UtilisateurController::class, 'inscriptions']);
         
         Route::post('resumes', [ResumeController::class, 'store']);
         Route::get('resumes/{resume}', [ResumeController::class, 'show']);

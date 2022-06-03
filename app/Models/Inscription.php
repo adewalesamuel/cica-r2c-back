@@ -19,4 +19,5 @@ class Inscription extends Model
 	{
 		return $this->belongsTo(Utilisateur::class); 
 	}
+
 }
