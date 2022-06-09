@@ -2,10 +2,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inscription;
+use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreInscriptionRequest;
 use App\Http\Requests\UpdateInscriptionRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderReceived;
 
 
 class InscriptionController extends Controller
@@ -56,6 +59,10 @@ class InscriptionController extends Controller
 		$inscription->status_paiement = $validated['status_paiement'] ?? 'en-attente';
 		
         $inscription->save();
+
+        $user = Utilisateur::findOrFail($inscription->utilisateur_id);
+
+        Mail::to($user->email)->send(new OrderReceived($inscription))->queue();
 
         $data = [
             'success'       => true,

@@ -21,7 +21,8 @@ class ApiAuthenticate
     {   
         $data = [];
         $user = null;
-        $token = $request->header('Authorization') ? explode(" ", $request->header('Authorization'))[1] : null;
+        $token = $request->header('Authorization') ? 
+        explode(" ", $request->header('Authorization'))[1] : null;
 
         switch (Arr::first($guards)) {
             case 'admin':

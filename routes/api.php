@@ -31,7 +31,6 @@ Route::post('/admin-logout', [ApiAdminAuthController::class, 'logout']);
 Route::post('/login', [ApiAuthController::class, 'login']);
 Route::post('/logout', [ApiAuthController::class, 'logout']);
 
-Route::get('utilisateurs', [UtilisateurController::class, 'index']);
 Route::post('utilisateurs', [ApiAuthController::class, 'register']);
 
 Route::get('categories', [CategorieController::class, 'index']);
@@ -41,6 +40,17 @@ Route::get('paiementgateways', [PaiementGatewayController::class, 'index']);
 Route::post('inscriptions', [InscriptionController::class, 'store']);
 
 Route::get('telechargements', [TelechargementController::class, 'index']);
+
+Route::any('test-mail', function(Request $request) {
+    $inscription = App\Models\Inscription::first();
+    $programmes = App\Models\Programme::whereIn('id', json_decode($inscription->programme_ids))->get();
+    $data = [
+        "inscription" => $inscription,
+        "programmes" => $programmes
+    ];
+
+    return view('emails.orders.received', $data);
+ });
 
 Route::prefix('utilisateurs')->group(function() {
     Route::middleware('auth.api')->group(function () {
@@ -61,6 +71,7 @@ Route::prefix('utilisateurs')->group(function() {
 
 Route::middleware('auth.api:admin')->group(function () {
     
+    Route::get('utilisateurs', [UtilisateurController::class, 'index']);
     Route::get('utilisateurs/{utilisateur}', [UtilisateurController::class, 'show']);
     Route::put('utilisateurs/{utilisateur}', [UtilisateurController::class, 'update']);
     Route::delete('utilisateurs/{utilisateur}', [UtilisateurController::class, 'destroy']);

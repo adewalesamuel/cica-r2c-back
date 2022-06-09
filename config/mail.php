@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'failover'),
+    'from' => ['address' => env('MAIL_FROM_ADDRESS', 'info@cica2022.com'), 'name' => env('MAIL_FROM_NAME', 'CICA 2022')],
+    'reply_to' => ['address' => env('MAIL_FROM_ADDRESS', 'info@cica2022.com'), 'name' => env('MAIL_FROM_NAME', 'CICA 2022')],
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +76,9 @@ return [
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
+                'mailgun',
                 'smtp',
+                'sendmail',
                 'log',
             ],
         ],
