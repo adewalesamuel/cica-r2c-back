@@ -52,7 +52,7 @@
 </style>
 <body>
     <div class="message-container">
-        <p>
+        {{-- <p>
             Bonjour <strong>{{ $inscription->utilisateur->civilite ?? "Monsieur" }} 
                 {{$inscription->utilisateur->nom ?? "Nom"}}  
                 {{$inscription->utilisateur->prenom ?? "Prenom"}} </strong>
@@ -86,7 +86,7 @@
         <p>
             Vous avez des questions ? Vous pouvez nous contacter à l'adresse suivante: 
             <a href="mailto:info@cica2022.com">info@cica2022.com</a>
-        </p>
+        </p> --}}
     </div>
 </body>
 </html>
