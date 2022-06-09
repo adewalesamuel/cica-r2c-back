@@ -62,7 +62,7 @@ class InscriptionController extends Controller
 
         $user = Utilisateur::findOrFail($inscription->utilisateur_id);
 
-        Mail::to($user->email)->send(new OrderReceived($inscription))->queue();
+        // Mail::to($user->email)->send(new OrderReceived($inscription))->queue();
 
         $data = [
             'success'       => true,
