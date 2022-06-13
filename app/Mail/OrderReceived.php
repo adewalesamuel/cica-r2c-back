@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Inscription; 
+use App\Models\Programme; 
 
 class OrderReceived extends Mailable
 {
@@ -15,7 +16,6 @@ class OrderReceived extends Mailable
     /**
      * The inscription instance.
      *
-     * @var \App\Models\Inscription
      */
     public $inscription;
 
@@ -24,7 +24,7 @@ class OrderReceived extends Mailable
      *
      * @return void
      */
-    public function __construct(Inscription $inscription)
+    public function __construct($inscription)
     {
         $this->inscription = $inscription;
     }
@@ -35,7 +35,10 @@ class OrderReceived extends Mailable
      * @return $this
      */
     public function build()
-    {
+    {   
+        $programmes = Programme::whereIn('id', json_decode($this->inscription->programme_ids))->get();
+        $this->inscription['programmes'] = $programmes;
+
         return $this->view('emails.orders.received');
     }
 }

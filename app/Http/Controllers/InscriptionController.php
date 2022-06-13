@@ -3,12 +3,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Inscription;
 use App\Models\Utilisateur;
+use App\Models\Programme;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreInscriptionRequest;
 use App\Http\Requests\UpdateInscriptionRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceived;
+use App\PaymentGateway\Stripe;
 
 
 class InscriptionController extends Controller
@@ -48,6 +50,7 @@ class InscriptionController extends Controller
     public function store(StoreInscriptionRequest $request)
     {
         $validated = $request->validated();
+        $payment_gateway_url = "";
 
         $inscription = new Inscription;
 
@@ -57,19 +60,79 @@ class InscriptionController extends Controller
 		$inscription->prix = $validated['prix'] ?? null;
 		$inscription->mode_paiement = $validated['mode_paiement'] ?? null;
 		$inscription->status_paiement = $validated['status_paiement'] ?? 'en-attente';
+        $inscription->paiement_id = Str::random(60);    
 		
         $inscription->save();
 
-        $user = Utilisateur::findOrFail($inscription->utilisateur_id);
+        try {
+            $user = Utilisateur::findOrFail($inscription->utilisateur_id);
+            
+            Mail::to($user->email)->queue(new OrderReceived($inscription));
 
-        // Mail::to($user->email)->send(new OrderReceived($inscription))->queue();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
+        try {
+            $pack = $inscription->pack;
+            
+            switch (strtolower($inscription->mode_paiement)) {
+                case 'stripe':
+                    $payment_gateway_url = Stripe::getCheckoutUrl($pack->prix, $inscription->paiement_id);
+                    break;
+                default:
+                    break;
+            }    
+        } catch (\Throwable $th) {
+            throw $th;
+        }
 
         $data = [
             'success'       => true,
-            'inscription'   => $inscription
+            'inscription'   => $inscription,
+            'payment_gateway_url' => $payment_gateway_url
         ];
         
         return response()->json($data);
+    }
+
+    public function validatePayment(Request $request) {
+        $payment_id = $request->input('payment_id');
+
+        if (!$payment_id)
+            throw new \Exception("Une erreure est survenue. Veuillez reéssayer", 1);
+
+        $inscription = Inscription::where('paiement_id', $payment_id)->firstOrFail();
+        $inscription->status_paiement = 'paye';
+        $inscription->save();
+
+        //Send tikcet
+
+        $data = [
+            "success" => true
+        ];
+
+        return response()->json($data, 200);
+       
+    }
+
+    public function cancelPayment(Request $request) {
+        $payment_id = $request->input('payment_id');
+
+        if (!$payment_id)
+            throw new \Exception("Une erreure est survenue. Veuillez reéssayer", 1);
+
+        $inscription = Inscription::where('paiement_id', $payment_id)->firstOrFail();
+        $inscription->status_paiement = 'annule';
+        $inscription->save();
+
+        //Send tikcet
+
+        $data = [
+            "success" => true
+        ];
+
+        return response()->json($data, 200);
     }
 
     /**

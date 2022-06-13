@@ -37,6 +37,9 @@ Route::get('categories', [CategorieController::class, 'index']);
 Route::get('programmes', [ProgrammeController::class, 'index']);
 Route::get('packs', [PackController::class, 'index']);
 Route::get('paiementgateways', [PaiementGatewayController::class, 'index']);
+
+Route::any('inscriptions/success', [InscriptionController::class, 'validatePayment']);
+Route::any('inscriptions/cancel', [InscriptionController::class, 'cancelPayment']);
 Route::post('inscriptions', [InscriptionController::class, 'store']);
 
 Route::get('telechargements', [TelechargementController::class, 'index']);
@@ -44,12 +47,24 @@ Route::get('telechargements', [TelechargementController::class, 'index']);
 Route::any('test-mail', function(Request $request) {
     $inscription = App\Models\Inscription::first();
     $programmes = App\Models\Programme::whereIn('id', json_decode($inscription->programme_ids))->get();
+    $inscription['programmes'] = $programmes;
+
     $data = [
-        "inscription" => $inscription,
-        "programmes" => $programmes
+        "inscription" => $inscription    
     ];
 
+    Illuminate\Support\Facades\Mail::to("samroberval@yahoo.fr")->queue(new App\Mail\OrderReceived($inscription));
+
     return view('emails.orders.received', $data);
+ });
+
+ Route::any('test-stripe', function(Request $request) {
+    echo App\PaymentGateway\Stripe::getCheckoutUrl(2055);
+    // return response()->json($res, 200);
+ });
+
+ Route::any('env-test', function() {
+    return response()->json(['env' => env('PAYMENT_URL')], 200);
  });
 
 Route::prefix('utilisateurs')->group(function() {
