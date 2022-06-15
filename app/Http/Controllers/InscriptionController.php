@@ -66,9 +66,8 @@ class InscriptionController extends Controller
 
         try {
             $user = Utilisateur::findOrFail($inscription->utilisateur_id);
-            
-            Mail::to($user->email)->queue(new OrderReceived($inscription));
 
+            Mail::to($user->email)->queue(new OrderReceived($inscription));
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -149,6 +148,15 @@ class InscriptionController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function details(Request $request, string $payment_id) 
+    {
+        $inscription = Inscription::where('paiement_id', $payment_id)->firstOrFail();
+        $programmes = Programme::whereIn('id', json_decode($inscription->programme_ids))->get();
+        $inscription['programmes'] = $programmes;
+
+        return view('inscription.details', ['inscription' => $inscription]);
     }
 
     /**
