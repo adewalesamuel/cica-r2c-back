@@ -97,7 +97,7 @@ class InscriptionController extends Controller
 
     public function validatePayment(Request $request) {
         $payment_id = $request->input('payment_id');
-
+        
         if (!$payment_id)
             throw new \Exception("Une erreure est survenue. Veuillez reéssayer", 1);
 

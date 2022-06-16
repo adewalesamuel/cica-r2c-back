@@ -1,16 +1,15 @@
 <?php
 
-
 namespace App\PaymentGateway;
 
 class Stripe {
 
     const PRICE_ID_MAP = [
-        '140' => 'price_1L9qUCHrX6v7W78860WY5kWI',
-        '205' => 'price_1L9qTgHrX6v7W788a47Gd0Ds',
-        '240' => 'price_1L9qSSHrX6v7W788KufBjupn',
-        '225' => 'price_1L9qQtHrX6v7W788gY57O3pj',
-        '285' => 'price_1L9aV6HrX6v7W788eo3UtOXV'
+        '140' => 'price_1LBGDhHrX6v7W788R2NyHmNo',
+        '205' => 'price_1LBGDsHrX6v7W788A4A3db9O',
+        '240' => 'price_1LBGDxHrX6v7W788MhNZNVoK',
+        '225' => 'price_1LBGEDHrX6v7W788f32lNL2m',
+        '285' => 'price_1LBGEMHrX6v7W788Z9TvGWgs'
     ];
 
     public static function getCheckoutUrl($price, string $payment_id = ""): string {
