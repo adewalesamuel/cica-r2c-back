@@ -12,12 +12,14 @@ class Stripe {
         '285' => 'price_1LBGEMHrX6v7W788Z9TvGWgs'
     ];
 
-    public static function getCheckoutUrl($price, string $payment_id = ""): string {
+    public static function getCheckoutUrl($price, string $payment_id = ""): string 
+    {
         self::setApiKey();
         return self::createPaymentSession($price, $payment_id)->url;
     }
 
-    private static function createPaymentSession($price, string $payment_id) {        
+    private static function createPaymentSession($price, string $payment_id) 
+    {        
         if (!isset(self::PRICE_ID_MAP[$price]))
             throw new \Exception("The price does not exist", 1);
 
@@ -36,7 +38,8 @@ class Stripe {
             ]);
     }
 
-    private static function setApiKey() {
+    private static function setApiKey() 
+    {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
     }
     

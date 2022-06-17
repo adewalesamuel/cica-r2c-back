@@ -78,7 +78,7 @@ class ApiAuthController extends Controller
         if (!$utilisateur) {
             $data = [
                 "success" => false,
-                "message" => "Une erreure est survenue"
+                "message" => "Une erreur est survenue"
             ];
 
             return response()->json($data, 500);

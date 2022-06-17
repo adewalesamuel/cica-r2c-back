@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceived;
 use App\PaymentGateway\Stripe;
+use App\PaymentGateway\Paypal;
 
 
 class InscriptionController extends Controller
@@ -67,7 +68,7 @@ class InscriptionController extends Controller
         try {
             $user = Utilisateur::findOrFail($inscription->utilisateur_id);
 
-            Mail::to($user->email)->queue(new OrderReceived($inscription));
+            // Mail::to($user->email)->queue(new OrderReceived($inscription));
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -78,6 +79,9 @@ class InscriptionController extends Controller
             switch (strtolower($inscription->mode_paiement)) {
                 case 'stripe':
                     $payment_gateway_url = Stripe::getCheckoutUrl($pack->prix, $inscription->paiement_id);
+                    break;
+                case 'paypal':
+                    $payment_gateway_url = Paypal::getCheckoutUrl($pack->prix, $inscription->paiement_id);
                     break;
                 default:
                     break;
@@ -99,7 +103,7 @@ class InscriptionController extends Controller
         $payment_id = $request->input('payment_id');
         
         if (!$payment_id)
-            throw new \Exception("Une erreure est survenue. Veuillez reéssayer", 1);
+            throw new \Exception("Une erreur est survenue. Veuillez reéssayer", 1);
 
         $inscription = Inscription::where('paiement_id', $payment_id)->firstOrFail();
         $inscription->status_paiement = 'paye';
@@ -119,7 +123,7 @@ class InscriptionController extends Controller
         $payment_id = $request->input('payment_id');
 
         if (!$payment_id)
-            throw new \Exception("Une erreure est survenue. Veuillez reéssayer", 1);
+            throw new \Exception("Une erreur est survenue. Veuillez reéssayer", 1);
 
         $inscription = Inscription::where('paiement_id', $payment_id)->firstOrFail();
         $inscription->status_paiement = 'annule';

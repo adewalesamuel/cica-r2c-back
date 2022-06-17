@@ -63,6 +63,11 @@ Route::any('test-mail', function(Request $request) {
     // return response()->json($res, 200);
  });
 
+ Route::any('test-paypal', function(Request $request) {
+    echo App\PaymentGateway\Paypal::getCheckoutUrl(205);
+    // return response()->json($res, 200);
+ });
+
  Route::any('env-test', function() {
     return response()->json(['env' => env('PAYMENT_URL')], 200);
  });

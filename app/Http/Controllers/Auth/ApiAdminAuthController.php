@@ -41,7 +41,7 @@ class ApiAdminAuthController extends Controller
         if (!$administrateur) {
             $data = [
                 "error" => true,
-                "message" => "Une erreure est survenue"
+                "message" => "Une erreur est survenue"
             ];
 
             return response()->json($data, 500);
