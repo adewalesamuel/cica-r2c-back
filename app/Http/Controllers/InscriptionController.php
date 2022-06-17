@@ -68,7 +68,7 @@ class InscriptionController extends Controller
         try {
             $user = Utilisateur::findOrFail($inscription->utilisateur_id);
 
-            // Mail::to($user->email)->queue(new OrderReceived($inscription));
+            Mail::to($user->email)->queue(new OrderReceived($inscription));
         } catch (\Throwable $th) {
             //throw $th;
         }
