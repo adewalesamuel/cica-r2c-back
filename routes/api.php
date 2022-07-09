@@ -53,9 +53,9 @@ Route::any('test-mail', function(Request $request) {
         "inscription" => $inscription    
     ];
 
-    Illuminate\Support\Facades\Mail::to("samroberval@yahoo.fr")->queue(new App\Mail\OrderReceived($inscription));
+    // Illuminate\Support\Facades\Mail::to("samroberval@yahoo.fr")->queue(new App\Mail\OrderReceived($inscription));
 
-    return view('emails.orders.received', $data);
+    return view('emails.orders.completed', $data);
  });
 
  Route::any('test-stripe', function(Request $request) {
@@ -66,10 +66,6 @@ Route::any('test-mail', function(Request $request) {
  Route::any('test-paypal', function(Request $request) {
     echo App\PaymentGateway\Paypal::getCheckoutUrl(205);
     // return response()->json($res, 200);
- });
-
- Route::any('env-test', function() {
-    return response()->json(['env' => env('PAYMENT_URL')], 200);
  });
 
 Route::prefix('utilisateurs')->group(function() {

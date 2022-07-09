@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateInscriptionRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceived;
+use App\Mail\PaymentSuccess;
 use App\PaymentGateway\Stripe;
 use App\PaymentGateway\Paypal;
 
@@ -68,7 +69,7 @@ class InscriptionController extends Controller
         try {
             $user = Utilisateur::findOrFail($inscription->utilisateur_id);
 
-            Mail::to($user->email)->queue(new OrderReceived($inscription));
+            Mail::to($inscription->utilisateur->email)->queue(new OrderReceived($inscription));
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -107,16 +108,25 @@ class InscriptionController extends Controller
 
         $inscription = Inscription::where('paiement_id', $payment_id)->firstOrFail();
         $inscription->status_paiement = 'paye';
+        
         $inscription->save();
 
-        //Send tikcet
+        $programmes = Programme::whereIn('id', json_decode($inscription->programme_ids))->get();
+        $inscription['programmes'] = $programmes;
+
+        $random_string = Str::random(10);
+        $path = storage_path(("{$random_string}.pdf"));
+
+        $pdf = \PDF::loadView('ticket', ['inscription' => $inscription])
+        ->setPaper('a4', 'landscape')->save($path); 
+        
+        Mail::to($inscription->utilisateur->email)->queue(new PaymentSuccess($inscription, $path));
 
         $data = [
             "success" => true
         ];
 
-        return response()->json($data, 200);
-       
+        return response()->json($data, 200);  
     }
 
     public function cancelPayment(Request $request) {
